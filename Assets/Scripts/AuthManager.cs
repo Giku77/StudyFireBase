@@ -94,6 +94,7 @@ public class AuthManager : MonoBehaviour
         try 
         {
             AuthResult result = await auth.CreateUserWithEmailAndPasswordAsync(e, p).AsUniTask();
+            user = result.User;
             Debug.Log("User created with email.");
         }
         catch (System.Exception ex)
@@ -109,6 +110,7 @@ public class AuthManager : MonoBehaviour
         try 
         {
             AuthResult result = await auth.SignInWithEmailAndPasswordAsync(e, p).AsUniTask();
+            user = result.User;
             Debug.Log("User signed in with email.");
         }
         catch (System.Exception ex)
