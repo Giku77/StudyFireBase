@@ -73,7 +73,7 @@ public class FirebaseInitializer : MonoBehaviour
         }
     }
 
-    private async UniTask WaitForInitilazationAsync()
+    public async UniTask WaitForInitilazationAsync()
     {
        await UniTask.WaitUntil(() => isInitialized);
     }
