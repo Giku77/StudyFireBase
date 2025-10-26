@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class ProfileUI : MonoBehaviour
 {
 
+    public GameObject profilePanel;
     public GameObject editNicknamePanel;
     public GameObject createNicknamePanel; 
 
@@ -17,7 +18,6 @@ public class ProfileUI : MonoBehaviour
     public TextMeshProUGUI UidText;
     public TextMeshProUGUI NowNicknameText;
 
-    public Button createNicknameButton;
 
     private string Nickname => ProfileManager.Instance.CachedProfile?.userName;
     private bool HasNickname => !string.IsNullOrEmpty(Nickname);
@@ -76,6 +76,11 @@ public class ProfileUI : MonoBehaviour
     public void SignOut()
     {
         AuthManager.Instance.SignOut();
+        editNicknamePanel.SetActive(false);
+        createNicknamePanel.SetActive(false);
+        profilePanel.SetActive(false);
+        var loginUI = FindFirstObjectByType<LoginUI>();
+        loginUI.UpdateUI().Forget();
     }
 
     public void Close(GameObject gameObject)

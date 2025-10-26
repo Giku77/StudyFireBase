@@ -6728,12 +6728,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4798cc0d9c735d49bd2117a4ac77a9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  profilePanel: {fileID: 1122463237}
   editNicknamePanel: {fileID: 50001020}
   createNicknamePanel: {fileID: 28523024}
   NicknameText: {fileID: 935952615}
   UidText: {fileID: 398441511}
   NowNicknameText: {fileID: 1215106790}
-  createNicknameButton: {fileID: 0}
 --- !u!1 &1724394614
 GameObject:
   m_ObjectHideFlags: 0
