@@ -68,7 +68,7 @@ public class LoginUI : MonoBehaviour
         });
         profileButton.onClick.AddListener(() =>
         {
-           
+            ProfilePanel.SetActive(!ProfilePanel.activeSelf);
         });
         UpdateUI().Forget();
     }
@@ -78,6 +78,7 @@ public class LoginUI : MonoBehaviour
         if (AuthManager.Instance == null || !AuthManager.Instance.IsInitialized) return;
         bool isLoggedIn = AuthManager.Instance.IsLoggedIn;
         LoginPanel.SetActive(!isLoggedIn);
+        profileButton.gameObject.SetActive(isLoggedIn);
         //profileButtonText.text = AuthManager.Instance.UserId;
     }
 

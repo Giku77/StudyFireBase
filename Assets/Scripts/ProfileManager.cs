@@ -12,6 +12,10 @@ public class ProfileManager : MonoBehaviour
     private UserProfile _cachedProfile;
     public UserProfile CachedProfile => _cachedProfile;
 
+    private UniTaskCompletionSource _readyTcs = new UniTaskCompletionSource();
+
+    public UniTask WaitForReadyAsync() => _readyTcs.Task;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -28,6 +32,7 @@ public class ProfileManager : MonoBehaviour
         await FirebaseInitializer.Instance.WaitForInitilazationAsync();
         _databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
         _userProfilesRef = _databaseReference.Child("users");
+        _readyTcs.TrySetResult();
 
         Debug.Log("ProfileManager initialized and ready.");
     }
@@ -55,7 +60,7 @@ public class ProfileManager : MonoBehaviour
         }
     }
 
-    public async UniTask<(UserProfile profile, string error)> LoadProfileAsync(string nickname)
+    public async UniTask<(UserProfile profile, string error)> LoadProfileAsync()
     {
         if (!AuthManager.Instance.IsLoggedIn) return (null, "User is not logged in.");
         string userId = AuthManager.Instance.UserId;
@@ -89,7 +94,7 @@ public class ProfileManager : MonoBehaviour
         string userId = AuthManager.Instance.UserId;
         try
         {
-           Debug.Log($"Updating nickname to: {nickname}");
+            Debug.Log($"Updating nickname to: {nickname}");
             await _userProfilesRef.Child(userId).Child("nickname").SetValueAsync(nickname).AsUniTask();
             if (_cachedProfile != null)
             {
