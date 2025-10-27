@@ -54,7 +54,7 @@ public class MovingCircle : MonoBehaviour
 
     private void MoveCircle()
     {
-        var parent = circleRect.parent as RectTransform;
+        var parent = circleRect.parent.parent as RectTransform;
         var parentRect = parent.rect;           
         var circleSize = circleRect.rect.size;     
 
@@ -79,6 +79,8 @@ public class MovingCircle : MonoBehaviour
         cancellationTokenSource?.Cancel();
         cancellationTokenSource?.Dispose();
         cancellationTokenSource = new CancellationTokenSource();
+        var loginUi = FindFirstObjectByType<LoginUI>();
+        loginUi.profileButton.gameObject.SetActive(false);
         while (!cancellationTokenSource.IsCancellationRequested)
         {
             MoveCircle();
@@ -90,7 +92,9 @@ public class MovingCircle : MonoBehaviour
                 cancellationTokenSource.Cancel();
                 timerText.text = "시간 종료!";
                 finalScoreText.text = "점수 : " + currentScore.ToString();
+                ScoreManager.Instance.SaveScoreAsync(currentScore).Forget();
                 endUI.SetActive(true);
+                loginUi.profileButton.gameObject.SetActive(true);
             }
         }
     }
